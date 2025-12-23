@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="game-header">
+            <h1>🧠 Memory Master</h1>
+            <div class="stats">
+                <span>Moves: <span id="moves">0</span></span>
+                <span>Time: <span id="time">00:00</span></span>
+                <span>Best: <span id="best-score">∞</span></span>
+            </div>
+        </header>
+
+
+        <div class="game-board" id="game-board">
+            <!-- Cards will be generated here -->
+        </div>
+
+
+        <div class="game-controls">
+            <button id="new-game-btn">New Game</button>
+            <button id="difficulty-btn">Easy (16)</button>
+        </div>
+
+
+        <div id="game-over" class="game-over hidden">
+            <h2 id="win-message">🎉 You Won!</h2>
+            <p id="final-stats"></p>
+            <button id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
