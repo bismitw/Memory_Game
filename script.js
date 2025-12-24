@@ -78,6 +78,55 @@ document.addEventListener("DOMContentLoaded",()=>{
     }
 
 
+    //flip card Main game logic handle single card click
+    function flipCards(card){
+
+        //Early exit conditions
+        if(!gameActive || flippedCards.length >= 2 || card.classList.contains(flipped) || card.classList.contains(matched)){
+            return;
+        }
+
+        card.classList.add('flipped'); //show front
+        flippedCards.push(card); //track flipped cards
+
+        if(flippedCards.length === 2){ //Both cards flipped??
+            moves++;                   //count move.
+            movesDisplay.textContent = moves; 
+            checkMatch();  //compare them
+        }
+
+
+    }
+
+    //check match  compare two cards
+    function checkMatch(){
+        const [card1, card2] = flippedCards;
+        const emoji1 = card1.dataset.emoji;
+        const emoji2 = card2.dataset.emoji;
+        
+
+        //matched
+        if(emoji1 === emoji2){
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            flippedCards=[]; //reset for next pair
+            checkWin(); //All done?
+
+        } 
+        //not matched
+        else{
+            gameActive = false;
+            setTimeout(() =>{ //delay for players to see
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                flippedCards=[];
+                gameActive= true; // allows clicking again
+
+            }, 1000);
+        }
+
+
+    }
 
 
 
