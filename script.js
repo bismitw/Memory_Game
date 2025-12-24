@@ -128,6 +128,32 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     }
 
+    //Check win all cards matched??
+    function checkWin(){
+        const matchedCards = document.querySelectorAll('.matched');
+        if(matchedCards.length === cardCount){
+
+            gameActive = false;
+            clearInterval(timer);
+
+            const finalTime =  formatTime(time);
+            const score = moves + time; // combined  score
+
+
+            //update High score 
+            if(score<bestscore){
+                localStorage.setItem("memory-best", score);
+                bestScoreDisplay.textContent= score;
+            }
+
+            winMessage.textContent = `🎉 Won in ${moves} moves & ${finalTime}!`;
+            finalStats.textContent = `Score: ${score}`;
+            gameOverScreen.classList.remove('hidden');
+
+        }
+
+    }
+
 
 
 
