@@ -26,18 +26,24 @@ document.addEventListener("DOMContentLoaded",()=>{
     const emojis = ["🦄", "🐸", "🐷", "🐯", "🦋", "🐢", "🦒", "🦩"];
 
 
+    const storedBest = localStorage.getItem("memory-best");
+    const bestScore = storedBest ? Number(storedBest) : Infinity;
+    bestScoreDisplay.textContent = isFinite(bestScore) ? bestScore : "0";
+
+
+
     //Create single card -Build HTML structure
     function createCard(emoji , index){
-        const card = document.createElement('div');
-        card.classList.emoji = emoji // stores emoji invisibly
-        card.dataset.index= index ; //position tracker
+        const card = document.createElement("div");
+      card.classList.add("card"); // add CSS class
+      card.dataset.emoji = emoji; // store emoji for matching
+      card.dataset.index = index; // store index
         card.innerHTML = `
-            <div class= "card-back">? </div>
+            <div class= "card-back">?</div>
             <div class= "card-front">${emoji}</div>
 
         `;
         return card;
-
     }
 
     //Shuffle array 
@@ -45,8 +51,8 @@ document.addEventListener("DOMContentLoaded",()=>{
     function shuffle(array){
         const shuffled = [...array]; //... spread operator clones array original array stays unchanged
         for(let i = shuffled.length-1; i>0; i--){ //starts from last item Each position gets random swap partner
-            const j = math.floor(math.random()*(i+1)); //Random index
-            [shuffled[i], shuffled[j] = shuffled[i], shuffled[j]] //swap
+            const j = Math.floor(Math.random() * (i+1)); //Random index
+            [shuffled[i], shuffled[j] = shuffled[j], shuffled[i]] //swap
         }
         return shuffled;
 
@@ -79,10 +85,13 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 
     //flip card Main game logic handle single card click
-    function flipCards(card){
+    function flipCard(card){
 
         //Early exit conditions
-        if(!gameActive || flippedCards.length >= 2 || card.classList.contains(flipped) || card.classList.contains(matched)){
+        if(!gameActive || 
+            flippedCards.length >= 2 ||
+            card.classList.contains('flipped') || 
+            card.classList.contains('matched')){
             return;
         }
 
@@ -141,7 +150,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 
             //update High score 
-            if(score<bestscore){
+            if(score < bestScore){
                 localStorage.setItem("memory-best", score);
                 bestScoreDisplay.textContent= score;
             }
@@ -161,7 +170,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         function formatTime(seconds){
             const mins = Math.floor(seconds/60);
             const secs= seconds%60;
-            return `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')} `;
+            return `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
         }
 
 
@@ -180,10 +189,38 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     //Event listeners Button clicks
     //user interactions
-    
+    newGameBtn.addEventListener('click',() =>{
+        startNewGame();
+        startTimer();
+    })
 
 
+    difficultyBtn.addEventListener('click',() => {
+
+        alert('Difficulty level comming soon');
+    })
+
+    playAgainBtn.addEventListener('click',()=>{
+        startNewGame();
+        startTimer();
+
+    })
+
+
+    //card clicks Event Delegation 
+    //one listener for all cards(efficient)
+
+    gameBoard.addEventListener('click',(e)=>{
+
+        if(e.target.closest('.card')){
+            flipCard(e.target.closest('.card'));
+        }
+    })
+
+
+    //initialize start first game 
+    //player sees game immediately
     startNewGame();
-
+    startTimer();
 
 })
