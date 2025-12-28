@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                 bestScoreDisplay.textContent= score;
             }
 
+            //show victory
             winMessage.textContent = `🎉 Won in ${moves} moves & ${finalTime}!`;
             finalStats.textContent = `Score: ${score}`;
             gameOverScreen.classList.remove('hidden');
@@ -154,7 +155,35 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     }
 
+        //Format time MM:SS display
+        //converts seconds
+        //Readable timer
+        function formatTime(seconds){
+            const mins = Math.floor(seconds/60);
+            const secs= seconds%60;
+            return `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')} `;
+        }
 
+
+        //Timer counts seconds
+        //game clock
+        //add pressure/score component
+
+        function startTimer(){
+            timer = setInterval(() => {
+                time++;
+                timeDisplay.textContent = formatTime(time);
+                
+            },1000);
+        }
+
+
+    //Event listeners Button clicks
+    //user interactions
+    
+
+
+    startNewGame();
 
 
 })
